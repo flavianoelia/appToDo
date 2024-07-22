@@ -40,7 +40,12 @@ class ListaEnlazada:
         print("Tarea agregada con éxito.")
 
     def buscar_tarea_descripcion(self,texto)->bool:
-        pass
+        actual = self.cabeza
+        while actual is not None:
+            if texto.lower() in actual.tarea.descripcion.lower():
+                estado = "Completada" if actual.tarea.completada else "Pendiente"
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+            actual = actual.siguiente
 
     def completar_tarea(self, id):
         pass
