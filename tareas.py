@@ -91,8 +91,18 @@ class ListaEnlazada:
         if not tareas_pendientes:
             print("No hay tareas pendientes.")
         
-    def mostrar_tareas_descripcion(self,text)->None:
-        pass
+    def mostrar_tareas_descripcion(self,texto)->None:
+        actual = self.cabeza
+        tareas_encontradas = False
+        while actual is not None:
+            if texto.lower() in actual.tarea.descripcion.lower():
+                estado = "Completada" if actual.tarea.completada else "Pendiente"
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+                tareas_encontradas = True
+            actual = actual.siguiente
+        if not tareas_encontradas:
+            print("No se encontraron tareas con esa descripción.")
+
     # F unciones estadisticas:
     def contar_tareas_pendientes(self)->int:
         pass
