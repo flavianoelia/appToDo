@@ -48,7 +48,15 @@ class ListaEnlazada:
             actual = actual.siguiente
 
     def completar_tarea(self, id):
-        pass
+        actual = self.cabeza
+        while actual is not None:
+            if actual.tarea.id == id:
+                actual.tarea.completada = True
+                print(f"Tarea con ID {id} marcada como completada.")
+                return
+            actual = actual.siguiente
+        print(f"Tarea con ID {id} no encontrada.")
+
 
     def eliminar_tarea(self, id):
         actual = self.cabeza
