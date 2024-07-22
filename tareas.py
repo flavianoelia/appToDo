@@ -40,10 +40,23 @@ class ListaEnlazada:
         print("Tarea agregada con éxito.")
 
     def buscar_tarea_descripcion(self,texto)->bool:
-        pass
+        actual = self.cabeza
+        while actual is not None:
+            if texto.lower() in actual.tarea.descripcion.lower():
+                estado = "Completada" if actual.tarea.completada else "Pendiente"
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+            actual = actual.siguiente
 
     def completar_tarea(self, id):
-        pass
+        actual = self.cabeza
+        while actual is not None:
+            if actual.tarea.id == id:
+                actual.tarea.completada = True
+                print(f"Tarea con ID {id} marcada como completada.")
+                return
+            actual = actual.siguiente
+        print(f"Tarea con ID {id} no encontrada.")
+
 
     def eliminar_tarea(self, id):
         actual = self.cabeza
@@ -68,10 +81,28 @@ class ListaEnlazada:
             actual = actual.siguiente
 
     def mostrar_tareas_pendientes(self):
-        pass
+        actual = self.cabeza
+        tareas_pendientes = False
+        while actual is not None:
+            if not actual.tarea.completada:
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: Pendiente")
+                tareas_pendientes = True
+            actual = actual.siguiente
+        if not tareas_pendientes:
+            print("No hay tareas pendientes.")
         
-    def mostrar_tareas_descripcion(self,text)->None:
-        pass
+    def mostrar_tareas_descripcion(self,texto)->None:
+        actual = self.cabeza
+        tareas_encontradas = False
+        while actual is not None:
+            if texto.lower() in actual.tarea.descripcion.lower():
+                estado = "Completada" if actual.tarea.completada else "Pendiente"
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+                tareas_encontradas = True
+            actual = actual.siguiente
+        if not tareas_encontradas:
+            print("No se encontraron tareas con esa descripción.")
+
     # F unciones estadisticas:
     def contar_tareas_pendientes(self)->int:
         pass
