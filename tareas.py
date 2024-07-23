@@ -113,7 +113,19 @@ class ListaEnlazada:
             actual = actual.siguiente
         return contador
     def mostrar_estadisticas(self)->None:
-        pass
+        total = 0
+        completadas = 0
+        actual = self.cabeza
+        while actual is not None:
+            total += 1
+            if actual.tarea.completada:
+                completadas += 1
+            actual = actual.siguiente
+        pendientes = total - completadas
+        print(f"Total de tareas: {total}")
+        print(f"Tareas completadas: {completadas}")
+        print(f"Tareas pendientes: {pendientes}")
+        
         
     # Carga y guardado de archivos
     def guardar_en_csv(self, archivo):
