@@ -103,9 +103,15 @@ class ListaEnlazada:
         if not tareas_encontradas:
             print("No se encontraron tareas con esa descripción.")
 
-    # F unciones estadisticas:
+    # Funciones estadisticas:
     def contar_tareas_pendientes(self)->int:
-        pass
+        actual = self.cabeza
+        contador = 0
+        while actual is not None:
+            if not actual.tarea.completada:
+                contador += 1
+            actual = actual.siguiente
+        return contador
     def mostrar_estadisticas(self)->None:
         pass
         
