@@ -103,11 +103,29 @@ class ListaEnlazada:
         if not tareas_encontradas:
             print("No se encontraron tareas con esa descripción.")
 
-    # F unciones estadisticas:
+    # Funciones estadisticas:
     def contar_tareas_pendientes(self)->int:
-        pass
+        actual = self.cabeza
+        contador = 0
+        while actual is not None:
+            if not actual.tarea.completada:
+                contador += 1
+            actual = actual.siguiente
+        return contador
     def mostrar_estadisticas(self)->None:
-        pass
+        total = 0
+        completadas = 0
+        actual = self.cabeza
+        while actual is not None:
+            total += 1
+            if actual.tarea.completada:
+                completadas += 1
+            actual = actual.siguiente
+        pendientes = total - completadas
+        print(f"Total de tareas: {total}")
+        print(f"Tareas completadas: {completadas}")
+        print(f"Tareas pendientes: {pendientes}")
+        
         
     # Carga y guardado de archivos
     def guardar_en_csv(self, archivo):
