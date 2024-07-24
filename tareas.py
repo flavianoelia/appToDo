@@ -21,8 +21,21 @@ class ListaEnlazada:
 
     def esta_vacia(self):
         return self.cabeza is None
+    
+    def tarea_existe(self, descripcion):
+        actual = self.cabeza
+        while actual is not None:
+            if actual.tarea.descripcion.lower() == descripcion.lower():
+                print(f"Tarea con descripción '{descripcion}' ya existe.")  # Debug print
+                return True
+            actual = actual.siguiente
+        return False
+
 
     def agregar_tarea(self, descripcion, prioridad, categoria):
+        if self.tarea_existe(descripcion):
+            print("La tarea con esta descripción ya existe.")
+            return
         tarea = Tarea(self.id_actual, descripcion, prioridad, categoria)
         nuevo_nodo = Nodo(tarea)
         self.id_actual += 1
@@ -39,6 +52,7 @@ class ListaEnlazada:
 
         print("Tarea agregada con éxito.")
 
+    
     def buscar_tarea_descripcion(self,texto)->bool:
         actual = self.cabeza
         while actual is not None:
@@ -145,9 +159,12 @@ class ListaEnlazada:
             reader = csv.reader(file)
             for row in reader:
                 id, descripcion, prioridad, categoria, completada = int(row[0]), row[1], int(row[2]), row[3], row[4] == 'True'
-                tarea = Tarea(id, descripcion, prioridad, categoria)
-                tarea.completada = completada
-                self.agregar_tarea_existente(tarea)
+                if not self.tarea_existe(descripcion):
+                    tarea = Tarea(id, descripcion, prioridad, categoria)
+                    tarea.completada = completada
+                    self.agregar_tarea_existente(tarea)
+                else:
+                    print(f"Error: La tarea con la descripción '{descripcion}' ya existe en el archivo CSV.")  # Mensaje de error agregado
             print(f"Tareas cargadas desde {archivo} con éxito.")
 
     def agregar_tarea_existente(self, tarea):
