@@ -35,11 +35,11 @@ class ListaEnlazada:
         return False
 
 
-    def agregar_tarea(self, descripcion, prioridad, categoria):
+    def agregar_tarea(self, descripcion, prioridad, fecha_vencimiento, categoria):
         if self.tarea_existe(descripcion):
             print("La tarea con esta descripción ya existe.")
             return
-        tarea = Tarea(self.id_actual, descripcion, prioridad, categoria)
+        tarea = Tarea(self.id_actual, descripcion, prioridad, fecha_vencimiento, categoria)
         nuevo_nodo = Nodo(tarea)
         self.id_actual += 1
 
