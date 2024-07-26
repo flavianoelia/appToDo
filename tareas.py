@@ -1,5 +1,7 @@
 import csv
 import os
+from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 
 class Tarea:
     def __init__(self, id, descripcion, prioridad, categoria="General"):
