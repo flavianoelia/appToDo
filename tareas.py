@@ -4,10 +4,11 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 
 class Tarea:
-    def __init__(self, id, descripcion, prioridad, categoria="General"):
+    def __init__(self, id, descripcion, prioridad, fecha_vencimiento, categoria="General"):
         self.id = id
         self.descripcion = descripcion
         self.prioridad = prioridad
+        self.fecha_vencimiento = datetime.strptime(fecha_vencimiento, '%Y-%m-%d')
         self.completada = False
         self.categoria = categoria
 
