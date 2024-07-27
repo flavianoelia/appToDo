@@ -34,23 +34,6 @@ class ListaEnlazada:
             actual = actual.siguiente
         return False
 
-
-    def agregar_tarea(self, descripcion, prioridad, categoria):
-        if self.tarea_existe(descripcion):
-            print("La tarea con esta descripción ya existe.")
-            return
-        tarea = Tarea(self.id_actual, descripcion, prioridad, categoria)
-    
-    def tarea_existe(self, descripcion):
-        actual = self.cabeza
-        while actual is not None:
-            if actual.tarea.descripcion.lower() == descripcion.lower():
-                print(f"Tarea con descripción '{descripcion}' ya existe.")  # Debug print
-                return True
-            actual = actual.siguiente
-        return False
-
-
     def agregar_tarea(self, descripcion, prioridad, fecha_vencimiento, categoria):
         if self.tarea_existe(descripcion):
             print("La tarea con esta descripción ya existe.")
