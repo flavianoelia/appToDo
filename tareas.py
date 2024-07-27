@@ -94,7 +94,8 @@ class ListaEnlazada:
         actual = self.cabeza
         while actual is not None:
             estado = "Completada" if actual.tarea.completada else "Pendiente"
-            print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+            fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+            print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}, Fecha de vencimiento: {fecha_vencimiento}")
             actual = actual.siguiente
 
     def mostrar_tareas_pendientes(self):
