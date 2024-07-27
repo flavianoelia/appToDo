@@ -165,13 +165,16 @@ class ListaEnlazada:
         with open(archivo, mode='r') as file:
             reader = csv.reader(file)
             for row in reader:
-                id, descripcion, prioridad, categoria, completada = int(row[0]), row[1], int(row[2]), row[3], row[4] == 'True'
-                if not self.tarea_existe(descripcion):
-                    tarea = Tarea(id, descripcion, prioridad, categoria)
-                    tarea.completada = completada
-                    self.agregar_tarea_existente(tarea)
-                else:
-                    print(f"Error: La tarea con la descripción '{descripcion}' ya existe en el archivo CSV.")  # Mensaje de error agregado
+                try:
+                    id, descripcion, prioridad, fecha_vencimiento, categoria, completada = int(row[0]), row[1], int(row[2]), row[3], row[4], row[5] == 'True'
+                    if not self.tarea_existe(descripcion):
+                        tarea = Tarea(id, descripcion, prioridad, fecha_vencimiento, categoria)
+                        tarea.completada = completada
+                        self.agregar_tarea_existente(tarea)
+                    else:
+                        print(f"Error: La tarea con la descripción '{descripcion}' ya existe en el archivo CSV.")
+                except ValueError as e:
+                    print(f"Error al procesar la fila: {row}, {e}")
             print(f"Tareas cargadas desde {archivo} con éxito.")
 
     def agregar_tarea_existente(self, tarea):
