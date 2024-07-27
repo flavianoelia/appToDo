@@ -103,7 +103,8 @@ class ListaEnlazada:
         tareas_pendientes = False
         while actual is not None:
             if not actual.tarea.completada:
-                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: Pendiente")
+                fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: Pendiente, Fecha de vencimiento: {fecha_vencimiento}")
                 tareas_pendientes = True
             actual = actual.siguiente
         if not tareas_pendientes:
