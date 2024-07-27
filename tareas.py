@@ -1,11 +1,14 @@
 import csv
 import os
+from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 
 class Tarea:
-    def __init__(self, id, descripcion, prioridad, categoria="General"):
+    def __init__(self, id, descripcion, prioridad, fecha_vencimiento, categoria="General"):
         self.id = id
         self.descripcion = descripcion
         self.prioridad = prioridad
+        self.fecha_vencimiento = datetime.strptime(fecha_vencimiento, '%Y-%m-%d')
         self.completada = False
         self.categoria = categoria
 
@@ -37,6 +40,22 @@ class ListaEnlazada:
             print("La tarea con esta descripción ya existe.")
             return
         tarea = Tarea(self.id_actual, descripcion, prioridad, categoria)
+    
+    def tarea_existe(self, descripcion):
+        actual = self.cabeza
+        while actual is not None:
+            if actual.tarea.descripcion.lower() == descripcion.lower():
+                print(f"Tarea con descripción '{descripcion}' ya existe.")  # Debug print
+                return True
+            actual = actual.siguiente
+        return False
+
+
+    def agregar_tarea(self, descripcion, prioridad, fecha_vencimiento, categoria):
+        if self.tarea_existe(descripcion):
+            print("La tarea con esta descripción ya existe.")
+            return
+        tarea = Tarea(self.id_actual, descripcion, prioridad, fecha_vencimiento, categoria)
         nuevo_nodo = Nodo(tarea)
         self.id_actual += 1
 
@@ -51,6 +70,8 @@ class ListaEnlazada:
             actual.siguiente = nuevo_nodo
 
         print("Tarea agregada con éxito.")
+
+    
 
     
     def buscar_tarea_descripcion(self,texto)->bool:
@@ -91,7 +112,8 @@ class ListaEnlazada:
         actual = self.cabeza
         while actual is not None:
             estado = "Completada" if actual.tarea.completada else "Pendiente"
-            print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+            fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+            print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}, Fecha de vencimiento: {fecha_vencimiento}")
             actual = actual.siguiente
 
     def mostrar_tareas_pendientes(self):
@@ -99,7 +121,8 @@ class ListaEnlazada:
         tareas_pendientes = False
         while actual is not None:
             if not actual.tarea.completada:
-                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: Pendiente")
+                fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: Pendiente, Fecha de vencimiento: {fecha_vencimiento}")
                 tareas_pendientes = True
             actual = actual.siguiente
         if not tareas_pendientes:
@@ -111,7 +134,8 @@ class ListaEnlazada:
         while actual is not None:
             if texto.lower() in actual.tarea.descripcion.lower():
                 estado = "Completada" if actual.tarea.completada else "Pendiente"
-                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+                fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}, Fecha de vencimiento: {fecha_vencimiento}")
                 tareas_encontradas = True
             actual = actual.siguiente
         if not tareas_encontradas:
@@ -147,7 +171,8 @@ class ListaEnlazada:
             writer = csv.writer(file)
             actual = self.cabeza
             while actual is not None:
-                writer.writerow([actual.tarea.id, actual.tarea.descripcion, actual.tarea.prioridad, actual.tarea.categoria, actual.tarea.completada])
+                fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+                writer.writerow([actual.tarea.id, actual.tarea.descripcion, actual.tarea.prioridad, fecha_vencimiento, actual.tarea.categoria, actual.tarea.completada])
                 actual = actual.siguiente
         print(f"Tareas guardadas en {archivo} con éxito.")
 
@@ -165,6 +190,16 @@ class ListaEnlazada:
                     self.agregar_tarea_existente(tarea)
                 else:
                     print(f"Error: La tarea con la descripción '{descripcion}' ya existe en el archivo CSV.")  # Mensaje de error agregado
+                try:
+                    id, descripcion, prioridad, fecha_vencimiento, categoria, completada = int(row[0]), row[1], int(row[2]), row[3], row[4], row[5] == 'True'
+                    if not self.tarea_existe(descripcion):
+                        tarea = Tarea(id, descripcion, prioridad, fecha_vencimiento, categoria)
+                        tarea.completada = completada
+                        self.agregar_tarea_existente(tarea)
+                    else:
+                        print(f"Error: La tarea con la descripción '{descripcion}' ya existe en el archivo CSV.")
+                except ValueError as e:
+                    print(f"Error al procesar la fila: {row}, {e}")
             print(f"Tareas cargadas desde {archivo} con éxito.")
 
     def agregar_tarea_existente(self, tarea):
