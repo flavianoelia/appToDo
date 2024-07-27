@@ -153,7 +153,8 @@ class ListaEnlazada:
             writer = csv.writer(file)
             actual = self.cabeza
             while actual is not None:
-                writer.writerow([actual.tarea.id, actual.tarea.descripcion, actual.tarea.prioridad, actual.tarea.categoria, actual.tarea.completada])
+                fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+                writer.writerow([actual.tarea.id, actual.tarea.descripcion, actual.tarea.prioridad, fecha_vencimiento, actual.tarea.categoria, actual.tarea.completada])
                 actual = actual.siguiente
         print(f"Tareas guardadas en {archivo} con éxito.")
 
