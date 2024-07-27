@@ -116,7 +116,8 @@ class ListaEnlazada:
         while actual is not None:
             if texto.lower() in actual.tarea.descripcion.lower():
                 estado = "Completada" if actual.tarea.completada else "Pendiente"
-                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}")
+                fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}, Fecha de vencimiento: {fecha_vencimiento}")
                 tareas_encontradas = True
             actual = actual.siguiente
         if not tareas_encontradas:
