@@ -192,6 +192,8 @@ class ListaEnlazada:
         if tarea.id >= self.id_actual:
             self.id_actual = tarea.id + 1
 
+        print(f"Tarea con descripción '{tarea.descripcion}' agregada desde CSV.")
+
 def menu():
     print("\nMenú:")
     print("1. Agregar tarea")
