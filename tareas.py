@@ -194,6 +194,40 @@ class ListaEnlazada:
 
         print(f"Tarea con descripción '{tarea.descripcion}' agregada desde CSV.")
 
+    def generar_informe_progreso(self):
+        categorias = {}
+        ahora = datetime.now()
+        proximos_7_dias = ahora + timedelta(days=7)
+
+        actual = self.cabeza
+        while actual:
+            tarea = actual.tarea
+            categoria = tarea.categoria
+            if categoria not in categorias:
+                categorias[categoria] = {
+                    "total": 0,
+                    "completadas": 0,
+                    "pendientes": 0,
+                    "vencen_proximos_7_dias": 0,
+                }
+            categorias[categoria]["total"] += 1
+            if tarea.completada:
+                categorias[categoria]["completadas"] += 1
+            else:
+                categorias[categoria]["pendientes"] += 1
+                if ahora <= tarea.fecha_vencimiento <= proximos_7_dias:
+                    categorias[categoria]["vencen_proximos_7_dias"] += 1
+
+            actual = actual.siguiente
+
+        for categoria, datos in categorias.items():
+            print(f"Categoría: {categoria}")
+            print(f"  Total de tareas: {datos['total']}")
+            print(f"  Tareas completadas: {datos['completadas']}")
+            print(f"  Tareas pendientes: {datos['pendientes']}")
+            print(f"  Tareas que vencen en los próximos 7 días: {datos['vencen_proximos_7_dias']}")
+
+
 def menu():
     print("\nMenú:")
     print("1. Agregar tarea")
