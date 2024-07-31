@@ -227,6 +227,19 @@ class ListaEnlazada:
             print(f"  Tareas pendientes: {datos['pendientes']}")
             print(f"  Tareas que vencen en los próximos 7 días: {datos['vencen_proximos_7_dias']}")
 
+    def mostrar_tareas_vencen_proximos_7_dias(self):
+        ahora = datetime.now()
+        proximos_7_dias = ahora + timedelta(days=7)
+        actual = self.cabeza
+        tareas_encontradas = False
+        while actual is not None:
+            if ahora <= actual.tarea.fecha_vencimiento <= proximos_7_dias:
+                estado = "Completada" if actual.tarea.completada else "Pendiente"
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}, Fecha de vencimiento: {actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')}")
+                tareas_encontradas = True
+            actual = actual.siguiente
+        if not tareas_encontradas:
+            print("No hay tareas que venzan en los próximos 7 días.")
 
 def menu():
     print("\nMenú:")
