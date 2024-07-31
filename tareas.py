@@ -21,6 +21,7 @@ class ListaEnlazada:
     def __init__(self):
         self.cabeza = None
         self.id_actual = 1
+        self.pendientes = 0
 
     def esta_vacia(self):
         return self.cabeza is None
