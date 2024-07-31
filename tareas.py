@@ -275,17 +275,23 @@ class ListaEnlazada:
         plt.show()
 
             
-
-def menu():
-    print("\nMenú:")
+def mostrar_menu():
+    print("\nMenú de opciones:")
     print("1. Agregar tarea")
-    print("2. Completar tarea")
-    print("3. Eliminar tarea")
-    print("4. Mostrar todas las tareas")
-    print("5. Mostrar tareas pendientes")
-    print("6. Guardar tareas en archivo CSV")
-    print("7. Cargar tareas desde archivo CSV")
-    print("8. Salir")
+    print("2. Buscar tarea por descripción")
+    print("3. Completar tarea")
+    print("4. Eliminar tarea")
+    print("5. Mostrar todas las tareas")
+    print("6. Mostrar tareas pendientes")
+    print("7. Mostrar tareas por descripción")
+    print("8. Mostrar estadísticas de tareas")
+    print("9. Guardar tareas en CSV")
+    print("10. Cargar tareas desde CSV")
+    print("11. Generar informe de progreso")
+    print("12. Mostrar tareas que vencen en los próximos 7 días")
+    print("13. Mostrar gráfico de tareas completadas por categoría")
+    print("0. Salir")
+
 
 def main():
     lista_tareas = ListaEnlazada()
