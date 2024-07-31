@@ -241,6 +241,41 @@ class ListaEnlazada:
         if not tareas_encontradas:
             print("No hay tareas que venzan en los próximos 7 días.")
 
+    def mostrar_grafico_tareas_completadas_por_categoria(self):
+        categorias = {}
+        actual = self.cabeza
+        while actual:
+            tarea = actual.tarea
+            categoria = tarea.categoria
+            if categoria not in categorias:
+                categorias[categoria] = {
+                    "completadas": 0,
+                    "pendientes": 0,
+                }
+            if tarea.completada:
+                categorias[categoria]["completadas"] += 1
+            else:
+                categorias[categoria]["pendientes"] += 1
+
+            actual = actual.siguiente
+
+        categorias_list = list(categorias.keys())
+        completadas_list = [categorias[c]["completadas"] for c in categorias_list]
+        pendientes_list = [categorias[c]["pendientes"] for c in categorias_list]
+
+        x = range(len(categorias_list))
+
+        plt.bar(x, completadas_list, width=0.4, label="Completadas", align="center")
+        plt.bar(x, pendientes_list, width=0.4, label="Pendientes", align="edge")
+        plt.xlabel("Categorías")
+        plt.ylabel("Número de Tareas")
+        plt.title("Tareas Completadas y Pendientes por Categoría")
+        plt.xticks(x, categorias_list, rotation=45)
+        plt.legend()
+        plt.show()
+
+            
+
 def menu():
     print("\nMenú:")
     print("1. Agregar tarea")
