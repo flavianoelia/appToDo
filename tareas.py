@@ -193,16 +193,105 @@ class ListaEnlazada:
         if tarea.id >= self.id_actual:
             self.id_actual = tarea.id + 1
 
-def menu():
-    print("\nMenú:")
+        print(f"Tarea con descripción '{tarea.descripcion}' agregada desde CSV.")
+
+    def generar_informe_progreso(self):
+        categorias = {}
+        ahora = datetime.now()
+        proximos_7_dias = ahora + timedelta(days=7)
+
+        actual = self.cabeza
+        while actual:
+            tarea = actual.tarea
+            categoria = tarea.categoria
+            if categoria not in categorias:
+                categorias[categoria] = {
+                    "total": 0,
+                    "completadas": 0,
+                    "pendientes": 0,
+                    "vencen_proximos_7_dias": 0,
+                }
+            categorias[categoria]["total"] += 1
+            if tarea.completada:
+                categorias[categoria]["completadas"] += 1
+            else:
+                categorias[categoria]["pendientes"] += 1
+                if ahora <= tarea.fecha_vencimiento <= proximos_7_dias:
+                    categorias[categoria]["vencen_proximos_7_dias"] += 1
+
+            actual = actual.siguiente
+
+        for categoria, datos in categorias.items():
+            print(f"Categoría: {categoria}")
+            print(f"  Total de tareas: {datos['total']}")
+            print(f"  Tareas completadas: {datos['completadas']}")
+            print(f"  Tareas pendientes: {datos['pendientes']}")
+            print(f"  Tareas que vencen en los próximos 7 días: {datos['vencen_proximos_7_dias']}")
+
+    def mostrar_tareas_vencen_proximos_7_dias(self):
+        ahora = datetime.now()
+        proximos_7_dias = ahora + timedelta(days=7)
+        actual = self.cabeza
+        tareas_encontradas = False
+        while actual is not None:
+            if ahora <= actual.tarea.fecha_vencimiento <= proximos_7_dias:
+                estado = "Completada" if actual.tarea.completada else "Pendiente"
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}, Fecha de vencimiento: {actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')}")
+                tareas_encontradas = True
+            actual = actual.siguiente
+        if not tareas_encontradas:
+            print("No hay tareas que venzan en los próximos 7 días.")
+
+    def mostrar_grafico_tareas_completadas_por_categoria(self):
+        categorias = {}
+        actual = self.cabeza
+        while actual:
+            tarea = actual.tarea
+            categoria = tarea.categoria
+            if categoria not in categorias:
+                categorias[categoria] = {
+                    "completadas": 0,
+                    "pendientes": 0,
+                }
+            if tarea.completada:
+                categorias[categoria]["completadas"] += 1
+            else:
+                categorias[categoria]["pendientes"] += 1
+
+            actual = actual.siguiente
+
+        categorias_list = list(categorias.keys())
+        completadas_list = [categorias[c]["completadas"] for c in categorias_list]
+        pendientes_list = [categorias[c]["pendientes"] for c in categorias_list]
+
+        x = range(len(categorias_list))
+
+        plt.bar(x, completadas_list, width=0.4, label="Completadas", align="center")
+        plt.bar(x, pendientes_list, width=0.4, label="Pendientes", align="edge")
+        plt.xlabel("Categorías")
+        plt.ylabel("Número de Tareas")
+        plt.title("Tareas Completadas y Pendientes por Categoría")
+        plt.xticks(x, categorias_list, rotation=45)
+        plt.legend()
+        plt.show()
+
+            
+def mostrar_menu():
+    print("\nMenú de opciones:")
     print("1. Agregar tarea")
-    print("2. Completar tarea")
-    print("3. Eliminar tarea")
-    print("4. Mostrar todas las tareas")
-    print("5. Mostrar tareas pendientes")
-    print("6. Guardar tareas en archivo CSV")
-    print("7. Cargar tareas desde archivo CSV")
-    print("8. Salir")
+    print("2. Buscar tarea por descripción")
+    print("3. Completar tarea")
+    print("4. Eliminar tarea")
+    print("5. Mostrar todas las tareas")
+    print("6. Mostrar tareas pendientes")
+    print("7. Mostrar tareas por descripción")
+    print("8. Mostrar estadísticas de tareas")
+    print("9. Guardar tareas en CSV")
+    print("10. Cargar tareas desde CSV")
+    print("11. Generar informe de progreso")
+    print("12. Mostrar tareas que vencen en los próximos 7 días")
+    print("13. Mostrar gráfico de tareas completadas por categoría")
+    print("0. Salir")
 
 def main():
     lista_tareas = ListaEnlazada()
@@ -212,32 +301,63 @@ def main():
     lista_tareas.cargar_desde_csv(archivo_csv)
 
     while True:
-        menu()
+        mostrar_menu()
         opcion = input("Seleccione una opción: ")
+
         if opcion == "1":
             descripcion = input("Ingrese la descripción de la tarea: ")
-            prioridad = int(input("Ingrese la prioridad de la tarea (1 = baja, 2 = media, 3 = alta): "))
+            prioridad = int(input("Ingrese la prioridad de la tarea (1-10): "))
+            fecha_vencimiento = input("Ingrese la fecha de vencimiento (YYYY-MM-DD): ")
             categoria = input("Ingrese la categoría de la tarea: ")
-            lista_tareas.agregar_tarea(descripcion, prioridad, categoria)
+            lista_tareas.agregar_tarea(descripcion, prioridad, fecha_vencimiento, categoria)
+
         elif opcion == "2":
-            id_tarea = int(input("Ingrese el ID de la tarea a completar: "))
-            lista_tareas.completar_tarea(id_tarea)
+            descripcion = input("Ingrese el texto a buscar en la descripción de la tarea: ")
+            lista_tareas.buscar_tarea_descripcion(descripcion)
+
         elif opcion == "3":
-            id_tarea = int(input("Ingrese el ID de la tarea a eliminar: "))
-            lista_tareas.eliminar_tarea(id_tarea)
+            id = int(input("Ingrese el ID de la tarea a completar: "))
+            lista_tareas.completar_tarea(id)
+
         elif opcion == "4":
-            lista_tareas.mostrar_tareas()
+            id = int(input("Ingrese el ID de la tarea a eliminar: "))
+            lista_tareas.eliminar_tarea(id)
+
         elif opcion == "5":
-            lista_tareas.mostrar_tareas_pendientes()
+            lista_tareas.mostrar_tareas()
+
         elif opcion == "6":
-            lista_tareas.guardar_en_csv(archivo_csv)
+            lista_tareas.mostrar_tareas_pendientes()
+
         elif opcion == "7":
-            lista_tareas.cargar_desde_csv(archivo_csv)
+            descripcion = input("Ingrese el texto a buscar en la descripción de la tarea: ")
+            lista_tareas.mostrar_tareas_descripcion(descripcion)
+
         elif opcion == "8":
-            print("Saliendo del sistema de gestión de tareas.")
+            lista_tareas.mostrar_estadisticas()
+
+        elif opcion == "9":
+            lista_tareas.guardar_en_csv(archivo_csv)
+
+        elif opcion == "10":
+            lista_tareas.cargar_desde_csv(archivo_csv)
+
+        elif opcion == "11":
+            lista_tareas.generar_informe_progreso()
+
+        elif opcion == "12":
+            lista_tareas.mostrar_tareas_vencen_proximos_7_dias()
+
+        elif opcion == "13":
+            lista_tareas.mostrar_grafico_tareas_completadas_por_categoria()
+
+        elif opcion == "0":
+            print("Saliendo del sistema de gestión de tareas")
             break
+
         else:
-            print("Opción no válida. Por favor, seleccione una opción válida.")
+            print("Opción no válida. Por favor, seleccione una opción del menú.")
+
 
 if __name__ == "__main__":
     main()
