@@ -292,7 +292,6 @@ def mostrar_menu():
     print("13. Mostrar gráfico de tareas completadas por categoría")
     print("0. Salir")
 
-
 def main():
     lista_tareas = ListaEnlazada()
     archivo_csv = 'tareas.csv'
@@ -301,32 +300,63 @@ def main():
     lista_tareas.cargar_desde_csv(archivo_csv)
 
     while True:
-        menu()
+        mostrar_menu()
         opcion = input("Seleccione una opción: ")
+
         if opcion == "1":
             descripcion = input("Ingrese la descripción de la tarea: ")
-            prioridad = int(input("Ingrese la prioridad de la tarea (1 = baja, 2 = media, 3 = alta): "))
+            prioridad = int(input("Ingrese la prioridad de la tarea (1-10): "))
+            fecha_vencimiento = input("Ingrese la fecha de vencimiento (YYYY-MM-DD): ")
             categoria = input("Ingrese la categoría de la tarea: ")
-            lista_tareas.agregar_tarea(descripcion, prioridad, categoria)
+            lista_tareas.agregar_tarea(descripcion, prioridad, fecha_vencimiento, categoria)
+
         elif opcion == "2":
-            id_tarea = int(input("Ingrese el ID de la tarea a completar: "))
-            lista_tareas.completar_tarea(id_tarea)
+            descripcion = input("Ingrese el texto a buscar en la descripción de la tarea: ")
+            lista_tareas.buscar_tarea_descripcion(descripcion)
+
         elif opcion == "3":
-            id_tarea = int(input("Ingrese el ID de la tarea a eliminar: "))
-            lista_tareas.eliminar_tarea(id_tarea)
+            id = int(input("Ingrese el ID de la tarea a completar: "))
+            lista_tareas.completar_tarea(id)
+
         elif opcion == "4":
-            lista_tareas.mostrar_tareas()
+            id = int(input("Ingrese el ID de la tarea a eliminar: "))
+            lista_tareas.eliminar_tarea(id)
+
         elif opcion == "5":
-            lista_tareas.mostrar_tareas_pendientes()
+            lista_tareas.mostrar_tareas()
+
         elif opcion == "6":
-            lista_tareas.guardar_en_csv(archivo_csv)
+            lista_tareas.mostrar_tareas_pendientes()
+
         elif opcion == "7":
-            lista_tareas.cargar_desde_csv(archivo_csv)
+            descripcion = input("Ingrese el texto a buscar en la descripción de la tarea: ")
+            lista_tareas.mostrar_tareas_descripcion(descripcion)
+
         elif opcion == "8":
-            print("Saliendo del sistema de gestión de tareas.")
+            lista_tareas.mostrar_estadisticas()
+
+        elif opcion == "9":
+            lista_tareas.guardar_en_csv(archivo_csv)
+
+        elif opcion == "10":
+            lista_tareas.cargar_desde_csv(archivo_csv)
+
+        elif opcion == "11":
+            lista_tareas.generar_informe_progreso()
+
+        elif opcion == "12":
+            lista_tareas.mostrar_tareas_vencen_proximos_7_dias()
+
+        elif opcion == "13":
+            lista_tareas.mostrar_grafico_tareas_completadas_por_categoria()
+
+        elif opcion == "0":
+            print("Saliendo del sistema de gestión de tareas")
             break
+
         else:
-            print("Opción no válida. Por favor, seleccione una opción válida.")
+            print("Opción no válida. Por favor, seleccione una opción del menú.")
+
 
 if __name__ == "__main__":
     main()
