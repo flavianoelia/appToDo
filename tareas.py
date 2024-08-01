@@ -138,6 +138,10 @@ class ListaEnlazada:
                 contador += 1
             actual = actual.siguiente
         return contador
+
+    def contar_tareas_pendientes_cte(self)->int:
+        return self.pendientes
+
     def mostrar_estadisticas(self)->None:
         total = 0
         completadas = 0
