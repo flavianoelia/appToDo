@@ -72,6 +72,7 @@ class ListaEnlazada:
         while actual is not None:
             if actual.tarea.id == id:
                 actual.tarea.completada = True
+                self.pendientes -= 1
                 print(f"Tarea con ID {id} marcada como completada.")
                 return
             actual = actual.siguiente
