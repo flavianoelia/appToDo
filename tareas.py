@@ -42,6 +42,7 @@ class ListaEnlazada:
         tarea = Tarea(self.id_actual, descripcion, prioridad, fecha_vencimiento, categoria)
         nuevo_nodo = Nodo(tarea)
         self.id_actual += 1
+        self.pendientes += 1
 
         if self.esta_vacia() or tarea.prioridad > self.cabeza.tarea.prioridad:
             nuevo_nodo.siguiente = self.cabeza
