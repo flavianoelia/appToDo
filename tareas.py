@@ -21,6 +21,7 @@ class ListaEnlazada:
     def __init__(self):
         self.cabeza = None
         self.id_actual = 1
+        self.pendientes = 0
 
     def esta_vacia(self):
         return self.cabeza is None
@@ -41,6 +42,7 @@ class ListaEnlazada:
         tarea = Tarea(self.id_actual, descripcion, prioridad, fecha_vencimiento, categoria)
         nuevo_nodo = Nodo(tarea)
         self.id_actual += 1
+        self.pendientes += 1
 
         if self.esta_vacia() or tarea.prioridad > self.cabeza.tarea.prioridad:
             nuevo_nodo.siguiente = self.cabeza
@@ -70,6 +72,7 @@ class ListaEnlazada:
         while actual is not None:
             if actual.tarea.id == id:
                 actual.tarea.completada = True
+                self.pendientes -= 1
                 print(f"Tarea con ID {id} marcada como completada.")
                 return
             actual = actual.siguiente
@@ -86,6 +89,8 @@ class ListaEnlazada:
                 else:
                     previo.siguiente = actual.siguiente
                 print(f"Tarea eliminada: {actual.tarea.descripcion}")
+                if actual.tarea.completada:
+                    self.pendientes -= 1
                 return
             previo = actual
             actual = actual.siguiente
@@ -133,6 +138,10 @@ class ListaEnlazada:
                 contador += 1
             actual = actual.siguiente
         return contador
+
+    def contar_tareas_pendientes_cte(self)->int:
+        return self.pendientes
+
     def mostrar_estadisticas(self)->None:
         total = 0
         completadas = 0
@@ -291,6 +300,7 @@ def mostrar_menu():
     print("11. Generar informe de progreso")
     print("12. Mostrar tareas que vencen en los próximos 7 días")
     print("13. Mostrar gráfico de tareas completadas por categoría")
+    print("14. Mostrar cantidad de tareas pendientes")
     print("0. Salir")
 
 def main():
@@ -350,6 +360,9 @@ def main():
 
         elif opcion == "13":
             lista_tareas.mostrar_grafico_tareas_completadas_por_categoria()
+
+        elif opcion == "14":
+            print(f"La cantidad de tareas pendientes es: {lista_tareas.contar_tareas_pendientes_cte()}")
 
         elif opcion == "0":
             print("Saliendo del sistema de gestión de tareas")
