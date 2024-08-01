@@ -361,6 +361,9 @@ def main():
         elif opcion == "13":
             lista_tareas.mostrar_grafico_tareas_completadas_por_categoria()
 
+        elif opcion == "14":
+            print(f"La cantidad de tareas pendientes es: {lista_tareas.contar_tareas_pendientes_cte()}")
+
         elif opcion == "0":
             print("Saliendo del sistema de gestión de tareas")
             break
