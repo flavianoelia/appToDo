@@ -300,6 +300,7 @@ def mostrar_menu():
     print("11. Generar informe de progreso")
     print("12. Mostrar tareas que vencen en los próximos 7 días")
     print("13. Mostrar gráfico de tareas completadas por categoría")
+    print("14. Mostrar cantidad de tareas pendientes")
     print("0. Salir")
 
 def main():
