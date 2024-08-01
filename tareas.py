@@ -89,6 +89,8 @@ class ListaEnlazada:
                 else:
                     previo.siguiente = actual.siguiente
                 print(f"Tarea eliminada: {actual.tarea.descripcion}")
+                if actual.tarea.completada:
+                    self.pendientes -= 1
                 return
             previo = actual
             actual = actual.siguiente
