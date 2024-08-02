@@ -1,18 +1,9 @@
-2,pasear al perro,3,salud,False
-5,pasear al perro,3,salud,False
-6,bañar al perro,3,salud,False
-7,bañar al perro,3,salud,False
-8,bañar al perro,3,salud,False
-9,bañar al perro,3,higiene,False
-10,bañar al perro,3,higiene,False
-11,pasear al perro,3,salud,False
-12,pasear al perro,3,salud,False
-13,pasear al perro,3,salud,False
-14,pasear al perro,3,salud,False
-15,pasear al perro,3,salud,False
-16,pasear al perro,3,salud,False
-17,pasear al perro,3,salud,False
-18,pasear al perro,3,salud,False
-3,bañar al gato,2,higiene,False
-4,bañar al perro,2,higiene,False
-1,BaÃ±arme,1,aseo,True
+4,ir al super,7,2024-07-29,compras,False
+2,lavar la ropa,5,2024-07-28,aseo,False
+9,ordenar los libros,5,2024-08-03,limpieza,False
+5,ir a la farmacia,4,2024-07-26,compras,False
+1,pasear al perro,3,2024-07-27,salud,False
+7,comprar alimento balanceado,2,2024-07-27,compras,False
+8,comenzar dieta el lunes,2,2024-07-29,salud,False
+3,lavar los platos,1,2024-07-26,aseo,False
+6,limpiar espejo,1,2024-07-26,aseo,False

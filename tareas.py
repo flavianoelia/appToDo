@@ -175,6 +175,9 @@ class ListaEnlazada:
         with open(archivo, mode='r') as file:
             reader = csv.reader(file)
             for row in reader:
+                if len(row) != 6:#
+                    print(f"Fila incompleta o malformada: {row}")#
+                    continue#
                 try:
                     id, descripcion, prioridad, fecha_vencimiento, categoria, completada = int(row[0]), row[1], int(row[2]), row[3], row[4], row[5] == 'True'
                     if not self.tarea_existe(descripcion):
