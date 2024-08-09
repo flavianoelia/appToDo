@@ -253,7 +253,22 @@ class ListaEnlazada:# Define una clase llamada ListaEnlazada.
             actual = actual.siguiente#Avanza a la siguiente tarea en la lista enlazada.
         if not tareas_encontradas:#Si no se encontraron tareas en el rango de los próximos 7 días
             print("No hay tareas que venzan en los próximos 7 días.")#imprime un mensaje que no hay tareas proximas a vencer.
-            
+    
+    def mostrar_tareas_por_categoria(self, categoria):#Define un método que recibe un parámetro adicional, categoria, que especifica la categoría de tareas que el usuario desea ver.
+        actual = self.cabeza#Inicia la variable actual en la cabeza de la lista enlazada de tareas, comenzando así el recorrido de la lista.
+        tareas_encontradas = False#Inicializa una bandera para rastrear si se encontraron tareas en la categoría especificada.
+        categoria = categoria.lower()#Convierte el nombre de la categoría a minúsculas para facilitar la comparación con las categorías de las tareas (que también se compararán en minúsculas).
+        while actual is not None:#Inicia un bucle while que continuará hasta que actual sea None, es decir, hasta que se haya recorrido toda la lista enlazada
+            if actual.tarea.categoria.lower() == categoria:# Compara la categoría de la tarea actual, convertida a minúsculas, con la categoría buscada. Si coinciden, significa que la tarea pertenece a la categoría que el usuario desea ver.
+
+                estado = "Completada" if actual.tarea.completada else "Pendiente"#Determina el estado de la tarea, que puede ser "Completada" o "Pendiente", según su estado actual
+                fecha_vencimiento = actual.tarea.fecha_vencimiento.strftime('%Y-%m-%d')#Formatea la fecha de vencimiento de la tarea en el formato "YYYY-MM-DD" para una presentación clara en el mensaje que se imprimirá.
+                print(f"ID: {actual.tarea.id}, Descripción: {actual.tarea.descripcion}, Prioridad: {actual.tarea.prioridad}, Categoría: {actual.tarea.categoria}, Estado: {estado}, Fecha de vencimiento: {fecha_vencimiento}")#Imprime los detalles de la tarea, incluyendo su ID, descripción, prioridad, categoría, estado y fecha de vencimiento.
+                tareas_encontradas = True#Establece la variable en True para indicar que se ha encontrado al menos una tarea en la categoría especificada.
+            actual = actual.siguiente#Avanza al siguiente nodo en la lista enlazada, permitiendo que el bucle continúe su recorrido.
+        if not tareas_encontradas:#Verifica si no se encontraron tareas en la categoría especificada
+            print(f"No se encontraron tareas en la categoría '{categoria}'.")#Si no se encontraron tareas, se imprime un mensaje informando que no hay tareas en la categoría solicitada.
+  
     def mostrar_grafico_tareas_completadas_por_categoria(self):#Define un método que no recibe parámetros adicionales más allá de self.
         categorias = {}#Inicializa un diccionario vacío que almacenará la cantidad de tareas completadas y pendientes para cada categoría.
         actual = self.cabeza#Inicia la variable actual en la cabeza de la lista enlazada de tareas
