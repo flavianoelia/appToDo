@@ -46,7 +46,7 @@ El sistema utiliza una lista enlazada ordenada para almacenar las tareas. Se ha 
 
 1. Clonar el repositorio:
    
-   git clone https://github.com/flavianoelia/AppToDo.git
+   ```git clone https://github.com/flavianoelia/AppToDo.git```
 
 
 
