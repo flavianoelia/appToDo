@@ -319,6 +319,7 @@ def mostrar_menu():#Esta función muestra un menú con las diferentes opciones d
     print("12. Mostrar tareas que vencen en los próximos 7 días")
     print("13. Mostrar gráfico de tareas completadas por categoría")
     print("14. Mostrar cantidad de tareas pendientes")
+    print("15.Mostrar tareas por categoria")
     print("0. Salir")
 
 def main():
@@ -378,6 +379,10 @@ def main():
 
         elif opcion == "13":#Si el usuario elige la opción 13, mostrar un gráfico de tareas completadas por categoría.
             lista_tareas.mostrar_grafico_tareas_completadas_por_categoria()#Llama al método para generar y mostrar un gráfico con la cantidad de tareas completadas por categoría.
+        
+        elif opcion == "15":#Si el usuario elige la opcion 15, mostrar tareas por categoria.
+            categoria = input("Ingrese la categoria")#Solicita al usuario que ingrese la categoria.
+            lista_tareas.mostrar_tareas_por_categoria(categoria)#Llama al metodo para mostrar las tareas por categoria.
 
         elif opcion == "14":#Si el usuario elige la opción 14, mostrar la cantidad de tareas pendientes
             print(f"La cantidad de tareas pendientes es: {lista_tareas.contar_tareas_pendientes_cte()}")#Imprime la cantidad de tareas pendientes utilizando el método correspondiente.
