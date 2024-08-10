@@ -380,13 +380,13 @@ def main():
         elif opcion == "13":#Si el usuario elige la opción 13, mostrar un gráfico de tareas completadas por categoría.
             lista_tareas.mostrar_grafico_tareas_completadas_por_categoria()#Llama al método para generar y mostrar un gráfico con la cantidad de tareas completadas por categoría.
         
+        elif opcion == "14":#Si el usuario elige la opción 14, mostrar la cantidad de tareas pendientes
+            print(f"La cantidad de tareas pendientes es: {lista_tareas.contar_tareas_pendientes_cte()}")#Imprime la cantidad de tareas pendientes utilizando el método correspondiente.
+            
         elif opcion == "15":#Si el usuario elige la opcion 15, mostrar tareas por categoria.
             categoria = input("Ingrese la categoria")#Solicita al usuario que ingrese la categoria.
             lista_tareas.mostrar_tareas_por_categoria(categoria)#Llama al metodo para mostrar las tareas por categoria.
 
-        elif opcion == "14":#Si el usuario elige la opción 14, mostrar la cantidad de tareas pendientes
-            print(f"La cantidad de tareas pendientes es: {lista_tareas.contar_tareas_pendientes_cte()}")#Imprime la cantidad de tareas pendientes utilizando el método correspondiente.
-            
         elif opcion == "0":#Si el usuario elige la opción 0, salir del programa.
             print("Saliendo del sistema de gestión de tareas")#Imprime un mensaje indicando que el programa está saliendo.
             break#Rompe el bucle infinito y termina la ejecución del programa.
